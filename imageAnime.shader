@@ -1,14 +1,15 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 Shader "Custom/imageAnime"
 {
 	Properties {
 		_Color ("Color Tint", Color) = (1, 1, 1, 1)
 		_MainTex ("Image Sequence", 2D) = "white" {}
-    	_HorizontalAmount ("Horizontal Amount", Float) = 4
+    	_HorizontalAmount ("Horizontal Amount", Float) = 4//该图像在水平方向上包含的关键帧图像个数
     	_VerticalAmount ("Vertical Amount", Float) = 4
     	_Speed ("Speed", Range(1, 100)) = 30
 	}
+	//序列帧图像为透明纹理，设置pass渲染透明效果
 	SubShader {
 		Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
 		
@@ -50,8 +51,10 @@ Shader "Custom/imageAnime"
 			}  
 			
 			fixed4 frag (v2f i) : SV_Target {
-				float time = floor(_Time.y * _Speed);  
+				float time = floor(_Time.y * _Speed);
+				//自该场景加载后所经过的时间和速度属性相乘得到模拟的时间  
 				float row = floor(time / _HorizontalAmount);
+				//模拟时间除——HorizontalAmount的商值为当前对应的行索引
 				float column = time - row * _HorizontalAmount;
 				
 //				half2 uv = float2(i.uv.x /_HorizontalAmount, i.uv.y / _VerticalAmount);

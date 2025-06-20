@@ -11,7 +11,7 @@ Shader "Custom/advertisement"
 	}
 	SubShader {
 		// Need to disable batching because of the vertex animation
-		Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" "DisableBatching"="True"}
+		Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" "DisableBatching"="True"}//使用批处理
 		
 		Pass { 
 			Tags { "LightMode"="ForwardBase" }
@@ -49,7 +49,7 @@ Shader "Custom/advertisement"
 				float3 viewer = mul(unity_WorldToObject,float4(_WorldSpaceCameraPos, 1));
 				
 				float3 normalDir = viewer - center;
-				
+				//_verticalbillboartding为1则法线方向固定为视角方向
 				normalDir.y =normalDir.y * _VerticalBillboarding;
 				normalDir = normalize(normalDir);
 				
